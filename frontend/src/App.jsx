@@ -5,7 +5,7 @@ import NoteCard from './components/NoteCard';
 import EditorPage from './components/EditorPage';
 import { Plus } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://notepulse-api.onrender.com/api/v1';
 
 export default function App() {
   const [notes, setNotes] = useState([]);
