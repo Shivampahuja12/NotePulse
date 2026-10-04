@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft } from 'lucide-react';
+import { formatNoteTime } from '../utils/timeUtils';
 
 export default function EditorPage({ isOpen, onClose, onSave, editingNote, isSaving }) {
   const [title, setTitle] = useState('');
@@ -24,10 +25,7 @@ export default function EditorPage({ isOpen, onClose, onSave, editingNote, isSav
   };
 
   const getFormattedTime = () => {
-    if (editingNote?.time) return editingNote.time;
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return `Today, ${timeStr}`;
+    return formatNoteTime(editingNote);
   };
 
   const charCount = description.length;

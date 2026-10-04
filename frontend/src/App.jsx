@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import NoteCard from './components/NoteCard';
 import EditorPage from './components/EditorPage';
 import { Plus } from 'lucide-react';
+import { getCurrentISTTime } from './utils/timeUtils';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://notepulse-api.onrender.com/api/v1';
 
@@ -48,13 +49,14 @@ export default function App() {
   // Create or Update Note
   const handleSaveNote = async ({ title, description }) => {
     setIsSaving(true);
+    const istTime = getCurrentISTTime();
     try {
       if (editingNote) {
         // Update description via PATCH
         const res = await fetch(`${API_BASE}/notes/${editingNote._id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ description }),
+          body: JSON.stringify({ description, time: istTime }),
         });
         if (!res.ok) throw new Error('Failed to update note');
         showToast('Note updated successfully');
@@ -63,7 +65,7 @@ export default function App() {
         const res = await fetch(`${API_BASE}/notes`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title, description }),
+          body: JSON.stringify({ title, description, time: istTime }),
         });
         if (!res.ok) throw new Error('Failed to create note');
         showToast('Note created successfully');

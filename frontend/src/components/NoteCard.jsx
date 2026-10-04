@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MoreVertical, Edit2, Trash2 } from 'lucide-react';
+import { formatNoteTime } from '../utils/timeUtils';
 
 export default function NoteCard({ note, onEdit, onDelete, onView }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -48,7 +49,7 @@ export default function NoteCard({ note, onEdit, onDelete, onView }) {
       <p className="card-body-text">{note.description}</p>
 
       <div className="card-timestamp">
-        {note.time || 'Today, 10:42 AM'}
+        {formatNoteTime(note)}
       </div>
 
       {showMenu && (
