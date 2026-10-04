@@ -1,11 +1,20 @@
 const noteModel = require("../models/note.model");
 
+function getISTTimeString() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+    return `Today, ${timeStr}`;
+}
+
 async function createNote(req, res) {
     try {
         const data = req.body;
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const timeFormatted = `Today, ${timeStr}`;
+        const timeFormatted = getISTTimeString();
 
         const newNote = await noteModel.create({
             title: data.title,
@@ -54,9 +63,10 @@ async function updateDescriptionById(req, res) {
     try {
         const id = req.params.id;
         const description = req.body.description;
+        const timeFormatted = getISTTimeString();
         const updated = await noteModel.findOneAndUpdate(
             { _id: id }, 
-            { description: description },
+            { description: description, time: timeFormatted },
             { new: true }
         );
         if (!updated) {
